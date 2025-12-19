@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内なる宇宙の可視化 | COSMIC CONSTELLATION HUB</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@300;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #020617; /* slate-950 */
+            color: #e2e8f0;
+            font-family: 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+        }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .font-rajdhani { font-family: 'Rajdhani', sans-serif; }
+        
+        /* 背景キャンバス */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* ガラスモーフィズム・カード */
+        .module-card {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .module-card:hover {
+            background: rgba(30, 41, 59, 0.6);
+            transform: translateY(-5px);
+            border-color: var(--hover-color, rgba(255,255,255,0.3));
+            box-shadow: 0 0 30px var(--shadow-color, rgba(255,255,255,0.1));
+        }
+        
+        /* スキャンライン演出 */
+        .module-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-25deg); transition: 0.5s; pointer-events: none;
+        }
+        .module-card:hover::before { left: 150%; transition: 0.7s; }
+
+        /* タイトルアニメーション */
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(56, 189, 248, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(56, 189, 248, 0.8), 0 0 10px rgba(255,255,255,0.8); }
+        }
+        .title-glow { animation: glow 4s infinite ease-in-out; }
+    </style>
+</head>
+<body class="selection:bg-cyan-500/30">
+
+    <div id="bg-canvas"></div>
+
+    <div class="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
+        
+        <header class="text-center mb-12 md:mb-16 relative z-10 w-full max-w-4xl">
+            <div class="inline-block px-4 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-[10px] md:text-xs font-rajdhani tracking-[0.3em] mb-4">
+                SYSTEM STATUS: ONLINE
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold font-cinzel text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 via-white to-purple-200 mb-4 title-glow">
+                内なる宇宙の可視化
+            </h1>
+            <p class="text-xs md:text-sm font-rajdhani tracking-[0.4em] text-slate-400 uppercase">
+                COSMIC CONSTELLATION GATEWAY
+            </p>
+            <div class="mt-6 w-24 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto"></div>
+            
+            <p class="mt-6 text-sm text-slate-300 max-w-2xl mx-auto leading-loose">
+                ここは、あなたの魂の設計図にアクセスするための管制塔です。<br>
+                「時間」「偶然」「叡智」「波動」。<br>
+                4つのポータルから、必要な真実へとダイブしてください。
+            </p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl relative z-10">
+
+            <a href="https://shuukiritsu.vercel.app" target="_blank"
+               class="module-card group rounded-2xl p-6 md:p-8 flex flex-col"
+               style="--hover-color: #38bdf8; --shadow-color: rgba(56, 189, 248, 0.2);">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-lg bg-cyan-950/50 text-cyan-400 border border-cyan-500/20 group-hover:bg-cyan-500 group-hover:text-slate-900 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <span class="text-[10px] font-rajdhani text-slate-500 tracking-widest">MODULE 01</span>
+                </div>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-100 mb-2 group-hover:text-cyan-300 transition-colors">
+                    周期律分析 <span class="text-xs font-normal text-slate-400 ml-2 block md:inline font-rajdhani">13-BASE CYCLE CODE</span>
+                </h2>
+                <p class="text-sm text-slate-400 leading-relaxed mb-6 flex-grow">
+                    生年月日から「運命のタイムライン」を13進数で解析。<br>
+                    攻めるべき時、守るべき時、転換期をピンポイントで特定する羅針盤。
+                </p>
+                <div class="flex items-center text-xs font-bold text-cyan-500 tracking-widest group-hover:translate-x-2 transition-transform">
+                    LAUNCH SYSTEM <span class="ml-2">→</span>
+                </div>
+            </a>
+
+            <a href="https://eki-grid.vercel.app" target="_blank"
+               class="module-card group rounded-2xl p-6 md:p-8 flex flex-col"
+               style="--hover-color: #facc15; --shadow-color: rgba(250, 204, 21, 0.2);">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-lg bg-yellow-950/50 text-yellow-400 border border-yellow-500/20 group-hover:bg-yellow-500 group-hover:text-slate-900 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    </div>
+                    <span class="text-[10px] font-rajdhani text-slate-500 tracking-widest">MODULE 02</span>
+                </div>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-100 mb-2 group-hover:text-yellow-300 transition-colors">
+                    森羅万象GRID <span class="text-xs font-normal text-slate-400 ml-2 block md:inline font-rajdhani">SYNCHRONICITY ORACLE</span>
+                </h2>
+                <p class="text-sm text-slate-400 leading-relaxed mb-6 flex-grow">
+                    易経（64卦）と神世七代の叡智をデジタル融合。<br>
+                    偶然の中に潜む「今、必要なメッセージ」を導き出す神託システム。
+                </p>
+                <div class="flex items-center text-xs font-bold text-yellow-500 tracking-widest group-hover:translate-x-2 transition-transform">
+                    ACCESS GRID <span class="ml-2">→</span>
+                </div>
+            </a>
+
+            <a href="https://maya2-gamma.vercel.app" target="_blank"
+               class="module-card group rounded-2xl p-6 md:p-8 flex flex-col"
+               style="--hover-color: #d946ef; --shadow-color: rgba(217, 70, 239, 0.2);">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-lg bg-fuchsia-950/50 text-fuchsia-400 border border-fuchsia-500/20 group-hover:bg-fuchsia-500 group-hover:text-slate-900 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </div>
+                    <span class="text-[10px] font-rajdhani text-slate-500 tracking-widest">MODULE 03</span>
+                </div>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-100 mb-2 group-hover:text-fuchsia-300 transition-colors">
+                    マヤ暦 <span class="text-xs font-normal text-slate-400 ml-2 block md:inline font-rajdhani">GALACTIC CALENDAR</span>
+                </h2>
+                <p class="text-sm text-slate-400 leading-relaxed mb-6 flex-grow">
+                    古代マヤのツォルキン暦が示す「銀河の刻印（KIN）」を知る。<br>
+                    あなたの魂の役割と、宇宙のリズムとの共鳴を確認する。
+                </p>
+                <div class="flex items-center text-xs font-bold text-fuchsia-500 tracking-widest group-hover:translate-x-2 transition-transform">
+                    DECODE KIN <span class="ml-2">→</span>
+                </div>
+            </a>
+
+            <a href="https://astro-resonance2.vercel.app/" target="_blank"
+               class="module-card group rounded-2xl p-6 md:p-8 flex flex-col"
+               style="--hover-color: #14b8a6; --shadow-color: rgba(20, 184, 166, 0.2);">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-lg bg-teal-950/50 text-teal-400 border border-teal-500/20 group-hover:bg-teal-500 group-hover:text-slate-900 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                    </div>
+                    <span class="text-[10px] font-rajdhani text-slate-500 tracking-widest">MODULE 04</span>
+                </div>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-100 mb-2 group-hover:text-teal-300 transition-colors">
+                    運命と音響の科学 <span class="text-xs font-normal text-slate-400 ml-2 block md:inline font-rajdhani">QUANTUM TUNING</span>
+                </h2>
+                <p class="text-sm text-slate-400 leading-relaxed mb-6 flex-grow">
+                    算命学（時間）×カタカムナ（空間）×フーリエ解析（現象）。<br>
+                    魂の周波数を測定し、ズレを補正する「共鳴音」を生成・ダウンロード。
+                </p>
+                <div class="flex items-center text-xs font-bold text-teal-500 tracking-widest group-hover:translate-x-2 transition-transform">
+                    START TUNING <span class="ml-2">→</span>
+                </div>
+            </a>
+
+        </main>
+
+        <footer class="mt-16 text-center relative z-10">
+            <div class="text-[10px] font-rajdhani text-slate-600 tracking-[0.3em] mb-2">
+                CONNECTED TO UNIVERSAL DATABASE
+            </div>
+            <div class="text-[10px] text-slate-700 font-mono">
+                © 2025 CONSTELLATION PROJECT
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- THREE.JS BACKGROUND ANIMATION ---
+        const initThree = () => {
+            const container = document.getElementById('bg-canvas');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x020617, 0.001); // Slate-950 fog
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Particles
+            const geometry = new THREE.BufferGeometry();
+            const particlesCount = 1500;
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 150; // Spread
+            }
+            geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.15,
+                color: 0x38bdf8, // Cyan-400
+                transparent: true,
+                opacity: 0.8,
+            });
+
+            const particlesMesh = new THREE.Points(geometry, material);
+            scene.add(particlesMesh);
+
+            // Connecting Lines (Constellation effect)
+            // Note: Too many lines can hurt performance, so we keep it simple or skip lines for pure particles.
+            // Let's add a secondary subtle starfield instead for depth.
+            
+            const geo2 = new THREE.BufferGeometry();
+            const count2 = 500;
+            const pos2 = new Float32Array(count2 * 3);
+            for(let i=0; i<count2*3; i++) pos2[i] = (Math.random()-0.5)*200;
+            geo2.setAttribute('position', new THREE.BufferAttribute(pos2, 3));
+            const mat2 = new THREE.PointsMaterial({ size: 0.1, color: 0xc084fc, transparent: true, opacity: 0.5 }); // Purple
+            const stars2 = new THREE.Points(geo2, mat2);
+            scene.add(stars2);
+
+            // Animation Loop
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                // Gentle rotation
+                particlesMesh.rotation.y += 0.0005;
+                particlesMesh.rotation.x += 0.0002;
+                stars2.rotation.y -= 0.0002;
+
+                // Mouse interaction parallax
+                camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
+                camera.position.y += (-mouseY * 5 - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Resize handling
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        window.addEventListener('load', initThree);
+    </script>
+</body>
+</html>
